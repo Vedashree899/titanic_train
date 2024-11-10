@@ -1,0 +1,101 @@
+import cv2
+  import torch
+  import warnings
+  warnings.filterwarnings("ignore",category=userwarning,module="torch")
+  MODEL_path = "/home/cyberwolf/Desktop/apps/yolov5/yolov5s.pt"
+  YOLOV5_REPO_PATH = "/home/cyberwolf/Desktop/uploads/Ecp/yolov5"
+  DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+  def load_model(model_path, repo_path):
+  print("loading YOLOV5 model...")
+  model.to(DEVICE)
+  model.eval()
+  pritn("Model loaded successfully.")
+  return model 
+  def detect_objects(model, image):
+  results = model(image)
+  return results
+  def draw_results(image, results):
+detections =[]
+  for *box, conf, class_id in results.xyxy[0].cpu().numpy():
+    x_min, y_min, x_max, y_max = map(int,box)
+      class_name = results.names[int(class_id)]
+      score = float(conf)
+      detection={
+      'class':class_name,
+      'confidence':score,
+      'bbox':(x_min, y_min, x_max, y_max)
+    }
+detections.append(detection)
+  return detections
+  def show_detections_screen_cui(detections):
+if len(detections) == 0:
+print("No objects detected.")
+  else:
+  print("Object Detection Results:")
+  for i, detection in enumerate(detections):
+  print(f " {i+1}. Object Name:{detection['class']}")
+  print(f " confidence: {detection['confidence']:2f}")
+  print(f " Bounding Box: {detection['bbox']}")
+  print("_"*50)
+  def process_live_feed(model):
+cap =cv2.VideoCapture(0)
+  if not cap.isOpened():
+  print("Error: unable to access the Webcam")
+  return
+  print("Processing live webcam feed.press 'q' to exit.")
+  while True:
+  ret, frame =cap.read()
+    if not ret:
+    break
+    results = detect_objects(model,frame)
+    detections = draw_results(frame, results)
+    show_detection_screen_cui(detectiions)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+    break
+    cap.release()
+    def process_video(video_path, model):
+cap = cv2.VideoCapture(video_path)
+  if not cap.isOpened():
+  print("Error: unable to access the video")
+  return
+  print(f"Processing video:{video_path}")
+  return
+  while True:
+  ret, frame = cap.read()
+    if not ret:
+    break
+    results = detect_Objects(model, frame)
+    detections = draw_results(frame, results)
+    show_detection_screen_cui(detections)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+    break
+    cap.release()
+    def process_image(image_path, model):
+print(f"Processing image:{image_path}")
+  image = cv2.imread(image_path)
+  if image is None:
+  print("Error: unable to load the image")
+  return
+  results = detect_objects(odel, image)
+  detections = deaw_results(image, results)
+  show_detection_screen_cui(detections)
+  def main():
+model = load_model(MODEL_PATH, YOLOV5_REPO_PATH)
+  print("choose the input source:")
+  print("1. Image")
+  print("2. Video")
+  print("3. Live Webcam Feed")
+  choice = input("Enter your choice (1/2/3):")
+  if choice == '1':
+  image_path = input("Enter the image path:")
+  process_image(image_path, model)
+  elif choice == '2':
+video_path = input("Enter the video path:")
+  process_video(video_path, model)
+  elif choice == '3':
+process_live_feed(model)
+  else:
+  print("Invaid choice. Please eneter 1,2, or 3.")
+  __name__ == "__main__":
+main()
+  

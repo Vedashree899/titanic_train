@@ -1,0 +1,53 @@
+import spotipy
+from spotipy.oauth2 import
+spotifyClientCredentials
+import pandas as pd
+ffrom sklearn.preprocessing
+import StandardScaler
+import matplotlib.pyplot as plt
+mport seaborn as sns 
+# spotify API credencials 
+client_id =
+'YOUR_SPOTIFY_CLIENT_ID'
+client_secret = 
+'YOUR_SPOTIFY_CLIENT_SECRET'
+# Authenticate and connect to the spotify API
+sp=
+spotipy.spotify(auth_manager=spotifyClientCredentials(client_id=client_id,client_secret=client_secret))
+# Fetch spotify data 
+def get_song_data(track_ids):
+    for track_id in track_ids):
+features =
+sp.audio_features(track_id)
+if features[0] is not 
+None:
+features_list.append(features[0])
+return
+pd.DataFrame(features_list)
+# Example track IDS (use your own data here)
+track_ids = ['some_track_id1','some_track_id2'] # Replace with actual track IDs
+song_data =
+get_song_data(track_ids)
+# select relevent features for clustering
+features =
+song_data[['danceability','energy','key','loudness','speechless','acouticness','instrumentalness','liveness','valence','tempo']]
+# standardize features
+scaler = standardscaler()
+scaled_features= 
+scaler.fit_transform(features)
+# Apply KMeans clustering
+Kmeans = KMeans(n_clusters=5,random_state=42) # change n-clusters as needed
+clusters =
+Kmeans fit_predict(scaled_features
+# Add cluster information to the DataFrame 
+song_data['cluster'] = clusters
+# visualization of clusters
+plt.figure(figsize=(10,6))
+sns.scatterplot(x=song_data['danceability'],
+                y=song_data['energy'],
+                hue=song_data['cluster'],
+                palette='viridis')
+plt.title('spotify songs Genre Segmentation')
+plt.xlabel('Energy')
+plt.ylabel('title='cluster')
+           plt.show()

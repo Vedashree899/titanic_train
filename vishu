@@ -1,0 +1,21 @@
+from ultralytics import yolo
+  #load a pre-trained yolo model for medical image segmentation 
+    model = yolo ('yolo8n-seg.pt')
+    #prepare medical image for analysis
+      image_path = 'brain_scan.jpg'
+      #perform instance segmentation
+      results = model(image_path,conf=0.5,
+                      #confidence threshold
+                      iou=0.7,
+                      #intersection over union threshold mode='predict')
+      #visualize and process results 
+      for results in results:
+        masks = result.masks
+        #segmentation masks 
+        boxes = results . boxes
+        # bounding boxes
+        # extract neurological condition details
+        for mask , box in zip(marks,boxes):
+          class_id = box.cls
+          confidence = box.conf
+          #addtional processing for neurological condition analysis

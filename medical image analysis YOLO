@@ -1,0 +1,29 @@
+from ultralytics import YOLO
+import cv2
+import numpy as np
+# load pre-trained YOLOv8 segmentation model 
+model = YOLO ('yolov8n-seg.pt')
+ # Train on neurological image dataset
+results =nmodel.train(
+data ='neurological_conditions . yam 1',
+epochs=100,
+imgsz=640,
+patience=50
+)
+# prediction function for medical image 
+def
+analyze_neurological_image(inmage_path):
+# Extract segmentation masks and confidence
+masks = results[0].masks confidences=results[0].conf
+# process and visualize results  
+for mask, conf in zip(masks,confidences):
+if conf > 0.7:
+# High confidence threshold
+segmented_region = mask.numpy()
+# Additional processing for neurological analysis
+return results
+if conf > 0.7:
+# High confidence threshold
+segmented_region=mask.numpy()
+# Additional processing for neurological analysis
+return results

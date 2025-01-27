@@ -1,0 +1,43 @@
+import torch
+import cv2
+import numpy as np
+# load the YOLOv7 model 
+model_path = "yoolv7.pt"
+# Replace with path to your trained YOLOv7 model
+model = torch.hub.load('wongkinYiu/yolo','custom',path_or_model=model_path)
+# Fnction to perform violence detection 
+def detection_violence(video_path):
+cap = cv2.videoCapture(video_path)
+if not cap.isopened():
+print("Error: could not open video file."return)
+while cap.isopend():
+ret,frame = cap.read()
+if not ret:
+break
+# Perform inference on the frame
+resuts + model(frame)
+# Prase detection results
+detections = results.pandas().xyxy[0]
+#Extract detections as a pandas DataFrame
+for_,row in detections.iterrows():
+label -= row['name']
+# Detection class
+confidence = row['confidence']
+x1 , y1 ,x2,y2 =
+int(row['xmin']), int(row)['ymin']),
+int(row['xmax']), int(row['ymax'])
+# Highlight potential violence
+if label == "violence" and confidence > 0.5:
+cv2. rectangle(frame,(x1,y1),(x2,y2),(0,0,255),2)
+cv2.putText(frame,f"{label}({confidence:2f})",(x1 ,y1 - 10),
+cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,225),2)
+# Display the frame 
+cv2.imshow("violence Detection",frame)
+if cv2.waitkey(1) & oxFF == ord('q'):
+break
+cap.release()
+cv2.destoryALLWINDOWS()
+# path to the video for analysis 
+video_path = "survelillence_video.mp4"
+# Replace with video file
+detect_violence(video_path)
